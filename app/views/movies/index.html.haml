@@ -1,2 +1,15 @@
 %h2 Movies!!!
-= @movies
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th Title
+      %th Release Date
+      %th Genre
+  %tbody
+    - @movies.each do |movie|
+      %tr
+        %td
+          = movie["title"]
+        %td
+          = movie["release_date"]
+        %td Genre Name
