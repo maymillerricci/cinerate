@@ -14,7 +14,7 @@ class ReviewsController < ApplicationController
     @title ||= params[:review][:movie_title]
 
     if @review.save
-      redirect_to movies_path
+      redirect_to movies_path, notice: "Your movie review has been submitted."
     else
       render :new
     end
