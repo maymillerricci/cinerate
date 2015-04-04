@@ -6,10 +6,12 @@
       %th Release Date
       %th Genre
   %tbody
-    - @movies.each do |movie|
-      %tr
-        %td
-          = movie["title"]
-        %td
-          = movie["release_date"]
-        %td Genre Name
+    - @movies_by_genre.each do |genre, movies|
+      - movies.each do |movie|
+        %tr
+          %td
+            = movie["title"]
+          %td
+            = movie["release_date"]
+          %td
+            = genre
