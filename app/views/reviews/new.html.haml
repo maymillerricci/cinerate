@@ -5,8 +5,7 @@
   = f.error_notification
   = f.hidden_field :movie_id, value: params[:movie_id]
   = f.hidden_field :movie_title, value: @title
-  = f.input :user_email
-  = f.input :rating
-  = f.input :comment, required: false
+  = f.input :user_email, label: "Email Address", required: true, input_html: { style: "width: 500px" }
+  = f.input :rating, label: "Rating (from 0 to 10)", required: true, as: :select, collection: (0..10), input_html: { style: "width: 100px" }
+  = f.input :comment, as: :text, input_html: { style: "width: 500px" }
   = f.submit "Submit Review"
-
