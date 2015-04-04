@@ -1,8 +1,10 @@
-%h2 New Review!
+%h2
+  = "New Review for #{@title}"
 %h3
 = simple_form_for @review, url: movie_reviews_path do |f|
   = f.error_notification
   = f.hidden_field :movie_id, value: params[:movie_id]
+  = f.hidden_field :movie_title, value: @title
   = f.input :user_email
   = f.input :rating
   = f.input :comment, required: false

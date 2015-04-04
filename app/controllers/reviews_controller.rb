@@ -6,10 +6,12 @@ class ReviewsController < ApplicationController
 
   def new
     @review = Review.new
+    @title = params[:movie_title]
   end
 
   def create
     @review = Review.new(review_params)
+    @title ||= params[:review][:movie_title]
 
     if @review.save
       redirect_to movies_path
