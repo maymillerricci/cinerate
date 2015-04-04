@@ -5,6 +5,8 @@
       %th Title
       %th Release Date
       %th Genre
+      %th
+      %th
   %tbody
     - @movies_by_genre.each do |genre, movies|
       - movies.each do |movie|
@@ -15,3 +17,7 @@
             = movie["release_date"]
           %td
             = genre
+          %td
+            = link_to("Read Reviews", movie_path(movie["id"], movie_title: movie["title"]))
+          %td
+            = link_to("New Review", new_movie_review_path(movie["id"], movie_title: movie["title"]))
