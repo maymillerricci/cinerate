@@ -1,5 +1,6 @@
-%h2
-  = "Reviews for #{@title}"
+%h2 All Movie Reviews
 - @reviews.each do |review|
   .panel.panel-primary
+    .panel-heading
+      = review.movie_title
     = render "shared/review_panel", review: review
