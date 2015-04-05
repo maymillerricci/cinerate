@@ -6,4 +6,8 @@ module ReviewsHelper
     end
   end
 
+  def extract_date(datetime)
+    datetime.strftime("%Y-%m-%d")
+  end
+
 end

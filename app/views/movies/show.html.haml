@@ -4,5 +4,6 @@
   .panel.panel-default
     .panel-body
       = panel_row("Email Address", review.user_email)
+      = panel_row("Review Date", extract_date(review.created_at))
       = panel_row("Rating", review.rating.to_s)
       = panel_row("Comment", review.comment)
