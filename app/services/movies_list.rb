@@ -1,5 +1,7 @@
 class MoviesList
 
+  # TODO: using rest-client to make http requests to api but supposed to be using ajax calls...
+
   def movies_by_genre
     movies_by_genre = {}
 
