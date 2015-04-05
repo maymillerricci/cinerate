@@ -1,4 +1,4 @@
-describe "movie reviews" do
+describe "movies index" do
 
   before(:each) do
     genres = '{"genres":[{"id":28,"name":"Action"},{"id":16,"name":"Animation"}]}'
@@ -17,7 +17,7 @@ describe "movie reviews" do
         to_return(:status => 200, :body => animated_movies)
   end
 
-  describe "movies index" do
+  describe "movies table" do
 
     it "should have movies info" do
       visit movies_path
@@ -63,6 +63,38 @@ describe "movie reviews" do
       end
     end
 
+  end
+
+  describe "clicking links" do
+
+    it "should go to all reviews page" do
+      visit movies_path
+      click_link "Read All Movie Reviews"
+      expect(current_path).to eq(reviews_path)
+      expect(page).to have_selector("h2", text: "All Movie Reviews")
+    end
+
+    it "should go to read reviews for this movie page" do
+      visit movies_path
+      within("#movies_table") do
+        within(all("tr")[1]) do
+          click_link "Read Reviews"
+        end
+      end
+      expect(current_path).to eq(movie_path(82992))
+      expect(page).to have_selector("h2", text: "Reviews for Fast & Furious 6")
+    end
+
+    it "should go to new movie review page" do
+      visit movies_path
+      within("#movies_table") do
+        within(all("tr")[1]) do
+          click_link "New Review"
+        end
+      end
+      expect(current_path).to eq(new_movie_review_path(82992))
+      expect(page).to have_selector("h2", text: "New Review for Fast & Furious 6")
+    end
   end
 
 end
