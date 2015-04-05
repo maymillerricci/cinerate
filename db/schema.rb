@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150404223033) do
+ActiveRecord::Schema.define(version: 20150405020415) do
 
   create_table "reviews", force: :cascade do |t|
-    t.string   "user_email", limit: 255
-    t.float    "rating",     limit: 24
-    t.string   "comment",    limit: 255
-    t.integer  "movie_id",   limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "user_email",  limit: 255
+    t.float    "rating",      limit: 24
+    t.string   "comment",     limit: 255
+    t.integer  "movie_id",    limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "movie_title", limit: 255
   end
 
 end
