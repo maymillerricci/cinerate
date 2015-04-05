@@ -1,6 +1,9 @@
 %h2
   = "Reviews for #{@title}"
-- @reviews.each do |review|
-  .panel.panel-primary
-    = render "shared/review_panel", review: review
+-if @reviews.any?
+  - @reviews.each do |review|
+    .panel.panel-primary
+      = render "shared/review_panel", review: review
+-else
+  %p There are no reviews yet. Be the first!
 = link_to "Write a Review", new_movie_review_path(params[:id], movie_title: params[:movie_title]), class: "btn btn-primary"
