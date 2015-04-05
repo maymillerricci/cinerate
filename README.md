@@ -46,5 +46,7 @@ Contributing
 Credits
 -------
 
+This product uses the TMDb API but is not endorsed or certified by TMDb. For more information, please visit at http://www.themoviedb.org/
+
 License
 -------

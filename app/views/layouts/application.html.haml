@@ -13,3 +13,5 @@
     %main{:role => "main"}
       = render 'layouts/messages'
       = yield
+    .footer
+      = "This product uses the #{link_to 'TMDb', 'http://www.themoviedb.org'} API but is not endorsed or certified by #{link_to 'TMDb', 'http://www.themoviedb.org'}.".html_safe
