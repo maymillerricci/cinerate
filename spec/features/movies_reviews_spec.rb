@@ -102,6 +102,69 @@ describe "movie reviews" do
 
   end
 
+  describe "show reviews for single movie" do
+
+    describe "no reviews yet" do
+
+      before(:each) do
+        visit movies_path
+        within("#movies_table") do
+          within(all("tr")[1]) do
+            click_link "Read Reviews"
+          end
+        end
+      end
+
+      it "should have message saying no reviews yet" do
+        expect(page).to have_selector("h2", text: "Reviews for Fast & Furious 6")
+        expect(page).to have_selector("p", text: "There are no reviews yet. Be the first!")
+      end
+
+      it "should go to new review page when click link" do
+        click_link "Write a Review"
+        expect(current_path).to eq(new_movie_review_path(82992))
+        expect(page).to have_selector("h2", text: "New Review for Fast & Furious 6")
+      end
+
+    end
+
+    describe "existing reviews" do
+      before(:each) do
+        create :review1
+        create :review2
+        create :review3
+        visit movies_path
+        within("#movies_table") do
+          within(all("tr")[1]) do
+            click_link "Read Reviews"
+          end
+        end
+      end
+
+      it "should display 3 reviews" do
+        expect(page).to have_selector("h2", text: "Reviews for Fast & Furious 6")
+        expect(all(".panel-body").count).to eq(3)
+      end
+
+      it "should display review with comment" do
+        expect(all(".panel-body")[0].all("p").count).to eq(4)
+        expect(all(".panel-body")[0].all("p")[0].text).to eq("Email Address: a@a.com")
+        expect(all(".panel-body")[0].all("p")[1].text).to eq("Review Date: #{Date.current.strftime("%Y-%m-%d")}")
+        expect(all(".panel-body")[0].all("p")[2].text).to eq("Rating (out of 10): 1.0")
+        expect(all(".panel-body")[0].all("p")[3].text).to eq("Comment: Bad movie!")
+      end
+
+      it "should display review without comment" do
+        expect(all(".panel-body")[1].all("p").count).to eq(3)
+        expect(all(".panel-body")[1].all("p")[0].text).to eq("Email Address: b@b.com")
+        expect(all(".panel-body")[1].all("p")[1].text).to eq("Review Date: #{Date.current.strftime("%Y-%m-%d")}")
+        expect(all(".panel-body")[1].all("p")[2].text).to eq("Rating (out of 10): 5.0")
+      end
+
+    end
+
+  end
+
   describe "create new review" do
 
     before(:each) do
