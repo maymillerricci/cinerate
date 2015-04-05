@@ -2,8 +2,4 @@
   = "Reviews for #{@title}"
 - @reviews.each do |review|
   .panel.panel-default
-    .panel-body
-      = panel_row("Email Address", review.user_email)
-      = panel_row("Review Date", extract_date(review.created_at))
-      = panel_row("Rating (out of 10)", review.rating.to_s)
-      = panel_row("Comment", review.comment) if review.comment.present?
+    = render "shared/review_panel", review: review
