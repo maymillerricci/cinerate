@@ -3,9 +3,7 @@ class MoviesList
   def movies_by_genre
     movies_by_genre = {}
 
-    # TODO: change this back - just load 2 genres for now so not always loading all genres from API
-    genres = get_genres[0...2]
-    genres.each do |genre|
+    get_genres.each do |genre|
       movies_array = get_movies_of_a_genre(genre)
       movies_by_genre[genre["name"]] = movies_array
     end
