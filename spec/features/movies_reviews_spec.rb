@@ -19,10 +19,48 @@ describe "movie reviews" do
 
   describe "movies index" do
 
-    it "should have movies header" do
+    it "should have movies info" do
       visit movies_path
 
       expect(page).to have_selector("h2", text: "Movies")
+      expect(page).to have_selector("tr", text: "Taken 3 2014-12-16 Action")
+      expect(page).to have_selector("tr", text: "Big Hero 6 2014-11-07 Animation")
+    end
+
+    it "should sort title column", js: true do
+      visit movies_path
+
+      find(".tablesorter-header", text: "Title").click # sort ascending
+      within("#movies_table") do
+        expect(all("tr")[1].all("td")[0].text).to eq("Big Hero 6")
+        expect(all("tr")[6].all("td")[0].text).to eq("Taken 3")
+      end
+
+      find(".tablesorter-header", text: "Title").click # sort descending
+      within("#movies_table") do
+        expect(all("tr")[1].all("td")[0].text).to eq("Taken 3")
+        expect(all("tr")[6].all("td")[0].text).to eq("Big Hero 6")
+      end
+    end
+
+    it "should sort release date column", js: true do
+      visit movies_path
+
+      find(".tablesorter-header", text: "Release Date").click # sort ascending
+      within("#movies_table") do
+        expect(all("tr")[1].all("td")[0].text).to eq("Fast & Furious 6")
+        expect(all("tr")[1].all("td")[1].text).to eq("2013-05-24")
+        expect(all("tr")[6].all("td")[0].text).to eq("Jupiter Ascending")
+        expect(all("tr")[6].all("td")[1].text).to eq("2015-02-27")
+      end
+
+      find(".tablesorter-header", text: "Release Date").click # sort descending
+      within("#movies_table") do
+        expect(all("tr")[1].all("td")[0].text).to eq("Jupiter Ascending")
+        expect(all("tr")[1].all("td")[1].text).to eq("2015-02-27")
+        expect(all("tr")[6].all("td")[0].text).to eq("Fast & Furious 6")
+        expect(all("tr")[6].all("td")[1].text).to eq("2013-05-24")
+      end
     end
 
   end
