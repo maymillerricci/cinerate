@@ -1,4 +1,4 @@
-describe "movies index" do
+describe "movie reviews" do
 
   before(:each) do
     genres = '{"genres":[{"id":28,"name":"Action"},{"id":16,"name":"Animation"}]}'
@@ -17,84 +17,149 @@ describe "movies index" do
         to_return(:status => 200, :body => animated_movies)
   end
 
-  describe "movies table" do
+  describe "movies index" do
 
-    it "should have movies info" do
-      visit movies_path
+    describe "movies table" do
 
-      expect(page).to have_selector("h2", text: "Movies")
-      expect(page).to have_selector("tr", text: "Taken 3 2014-12-16 Action")
-      expect(page).to have_selector("tr", text: "Big Hero 6 2014-11-07 Animation")
+      it "should have movies info" do
+        visit movies_path
+
+        expect(page).to have_selector("h2", text: "Movies")
+        expect(page).to have_selector("tr", text: "Taken 3 2014-12-16 Action")
+        expect(page).to have_selector("tr", text: "Big Hero 6 2014-11-07 Animation")
+      end
+
+      it "should sort title column", js: true do
+        visit movies_path
+
+        find(".tablesorter-header", text: "Title").click # sort ascending
+        within("#movies_table") do
+          expect(all("tr")[1].all("td")[0].text).to eq("Big Hero 6")
+          expect(all("tr")[6].all("td")[0].text).to eq("Taken 3")
+        end
+
+        find(".tablesorter-header", text: "Title").click # sort descending
+        within("#movies_table") do
+          expect(all("tr")[1].all("td")[0].text).to eq("Taken 3")
+          expect(all("tr")[6].all("td")[0].text).to eq("Big Hero 6")
+        end
+      end
+
+      it "should sort release date column", js: true do
+        visit movies_path
+
+        find(".tablesorter-header", text: "Release Date").click # sort ascending
+        within("#movies_table") do
+          expect(all("tr")[1].all("td")[0].text).to eq("Fast & Furious 6")
+          expect(all("tr")[1].all("td")[1].text).to eq("2013-05-24")
+          expect(all("tr")[6].all("td")[0].text).to eq("Jupiter Ascending")
+          expect(all("tr")[6].all("td")[1].text).to eq("2015-02-27")
+        end
+
+        find(".tablesorter-header", text: "Release Date").click # sort descending
+        within("#movies_table") do
+          expect(all("tr")[1].all("td")[0].text).to eq("Jupiter Ascending")
+          expect(all("tr")[1].all("td")[1].text).to eq("2015-02-27")
+          expect(all("tr")[6].all("td")[0].text).to eq("Fast & Furious 6")
+          expect(all("tr")[6].all("td")[1].text).to eq("2013-05-24")
+        end
+      end
+
     end
 
-    it "should sort title column", js: true do
-      visit movies_path
+    describe "clicking links" do
 
-      find(".tablesorter-header", text: "Title").click # sort ascending
-      within("#movies_table") do
-        expect(all("tr")[1].all("td")[0].text).to eq("Big Hero 6")
-        expect(all("tr")[6].all("td")[0].text).to eq("Taken 3")
+      it "should go to all reviews page" do
+        visit movies_path
+        click_link "Read All Movie Reviews"
+        expect(current_path).to eq(reviews_path)
+        expect(page).to have_selector("h2", text: "All Movie Reviews")
       end
 
-      find(".tablesorter-header", text: "Title").click # sort descending
-      within("#movies_table") do
-        expect(all("tr")[1].all("td")[0].text).to eq("Taken 3")
-        expect(all("tr")[6].all("td")[0].text).to eq("Big Hero 6")
-      end
-    end
-
-    it "should sort release date column", js: true do
-      visit movies_path
-
-      find(".tablesorter-header", text: "Release Date").click # sort ascending
-      within("#movies_table") do
-        expect(all("tr")[1].all("td")[0].text).to eq("Fast & Furious 6")
-        expect(all("tr")[1].all("td")[1].text).to eq("2013-05-24")
-        expect(all("tr")[6].all("td")[0].text).to eq("Jupiter Ascending")
-        expect(all("tr")[6].all("td")[1].text).to eq("2015-02-27")
+      it "should go to read reviews for this movie page" do
+        visit movies_path
+        within("#movies_table") do
+          within(all("tr")[1]) do
+            click_link "Read Reviews"
+          end
+        end
+        expect(current_path).to eq(movie_path(82992))
+        expect(page).to have_selector("h2", text: "Reviews for Fast & Furious 6")
       end
 
-      find(".tablesorter-header", text: "Release Date").click # sort descending
-      within("#movies_table") do
-        expect(all("tr")[1].all("td")[0].text).to eq("Jupiter Ascending")
-        expect(all("tr")[1].all("td")[1].text).to eq("2015-02-27")
-        expect(all("tr")[6].all("td")[0].text).to eq("Fast & Furious 6")
-        expect(all("tr")[6].all("td")[1].text).to eq("2013-05-24")
+      it "should go to new movie review page" do
+        visit movies_path
+        within("#movies_table") do
+          within(all("tr")[1]) do
+            click_link "New Review"
+          end
+        end
+        expect(current_path).to eq(new_movie_review_path(82992))
+        expect(page).to have_selector("h2", text: "New Review for Fast & Furious 6")
       end
+
     end
 
   end
 
-  describe "clicking links" do
+  describe "create new review" do
 
-    it "should go to all reviews page" do
-      visit movies_path
-      click_link "Read All Movie Reviews"
-      expect(current_path).to eq(reviews_path)
-      expect(page).to have_selector("h2", text: "All Movie Reviews")
-    end
-
-    it "should go to read reviews for this movie page" do
-      visit movies_path
-      within("#movies_table") do
-        within(all("tr")[1]) do
-          click_link "Read Reviews"
-        end
-      end
-      expect(current_path).to eq(movie_path(82992))
-      expect(page).to have_selector("h2", text: "Reviews for Fast & Furious 6")
-    end
-
-    it "should go to new movie review page" do
+    before(:each) do
       visit movies_path
       within("#movies_table") do
         within(all("tr")[1]) do
           click_link "New Review"
         end
       end
-      expect(current_path).to eq(new_movie_review_path(82992))
-      expect(page).to have_selector("h2", text: "New Review for Fast & Furious 6")
     end
+
+    describe "with errors" do
+
+      it "should reload new review page with errors when fields left blank" do
+        expect(page).to have_selector("h2", text: "New Review for Fast & Furious 6")
+        click_button "Submit Review"
+        expect(page).to have_selector("h2", text: "New Review for Fast & Furious 6")
+        expect(page).to have_selector(".alert-danger", text: "Please review the problems below:")
+        expect(page).to have_selector(".help-block", text: "is not a valid email address")
+        expect(page).to have_selector(".help-block", text: "is not a number")
+      end
+
+      it "should reload new review page with error when invalid email address" do
+        fill_in "Email Address", with: "Name"
+        click_button "Submit Review"
+        expect(page).to have_selector("h2", text: "New Review for Fast & Furious 6")
+        expect(page).to have_selector(".alert-danger", text: "Please review the problems below:")
+        expect(page).to have_selector(".help-block", text: "is not a valid email address")
+        expect(page).to have_selector(".help-block", text: "is not a number")
+      end
+
+    end
+
+    describe "success" do
+
+      before(:each) do
+        fill_in "Email Address", with: "email@address.com"
+        select "5", from: "Rating"
+        fill_in "Comment", with: "decent movie"
+        click_button "Submit Review"
+      end
+
+      it "should redirect to movies index with success message when submitted" do
+        expect(current_path).to eq(movies_path)
+        expect(page).to have_selector(".alert-success", text: "Your movie review has been submitted.")
+        expect(Review.last.movie_title).to eq("Fast & Furious 6")
+      end
+
+      it "should save review to database" do
+        expect(Review.last.movie_title).to eq("Fast & Furious 6")
+        expect(Review.last.movie_id).to eq(82992)
+        expect(Review.last.user_email).to eq("email@address.com")
+        expect(Review.last.rating).to eq(5)
+        expect(Review.last.comment).to eq("decent movie")
+      end
+
+    end
+
   end
 
 end
