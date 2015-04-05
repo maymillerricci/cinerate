@@ -8,6 +8,7 @@ class MoviesList
       movies_by_genre[genre["name"]] = movies_array
     end
 
+    # TODO: get rid of duplicate movies (b/c same movie has multiple genres)
     movies_by_genre
   end
 
