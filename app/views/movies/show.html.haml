@@ -1,0 +1,14 @@
+%h2
+  = "Reviews for #{@title}"
+- @reviews.each do |review|
+  .panel.panel-default
+    .panel-body
+      %p
+        %span.strong Email Address:
+        = review.user_email
+      %p
+        %span.strong Rating:
+        = review.rating
+      %p
+        %span.strong Comment:
+        = review.comment
