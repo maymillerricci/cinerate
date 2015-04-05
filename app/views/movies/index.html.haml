@@ -1,6 +1,6 @@
 %h2 Movies
 .read-all
-  = link_to "Read All Movie Reviews", reviews_path
+  = link_to "Read All Movie Reviews", reviews_path, class: "btn btn-primary"
 %table#movies_table.table.tablesorter.tablesorter-blue
   %thead
     %tr
@@ -20,6 +20,6 @@
           %td
             = genre
           %td
-            = link_to("Read Reviews", movie_path(movie["id"], movie_title: movie["title"]))
+            = link_to "Read Reviews", movie_path(movie["id"], movie_title: movie["title"])
           %td
-            = link_to("New Review", new_movie_review_path(movie["id"], movie_title: movie["title"]))
+            = link_to "New Review", new_movie_review_path(movie["id"], movie_title: movie["title"])
