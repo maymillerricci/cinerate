@@ -7,7 +7,6 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'rest-client'
-gem 'webmock'
 gem 'jquery-tablesorter'
 group :development, :test do
   gem 'byebug'
@@ -33,6 +32,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'thin'
+  gem 'webmock'
 end
 group :production do
   gem 'puma'
