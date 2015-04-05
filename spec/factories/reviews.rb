@@ -25,6 +25,21 @@ FactoryGirl.define do
       movie_title "Fast & Furious 6"
     end
 
+    factory :review4 do
+      user_email "d@d.com"
+      rating 7
+      comment "Decent"
+      movie_id 109445
+      movie_title "Frozen"
+    end
+
+    factory :review5 do
+      user_email "e@e.com"
+      rating 10
+      movie_id 109445
+      movie_title "Frozen"
+    end
+
   end
 
 end
