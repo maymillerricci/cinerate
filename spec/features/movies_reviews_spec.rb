@@ -102,7 +102,35 @@ describe "movie reviews" do
 
   end
 
-  describe "show reviews for single movie" do
+  describe "reviews index" do
+    before(:each) do
+      create :review1
+      create :review2
+      create :review3
+      create :review4
+      create :review5
+      visit reviews_path
+    end
+
+    it "should have 5 reviews" do
+      expect(page).to have_selector("h2", text: "All Movie Reviews")
+      expect(all(".panel-body").count).to eq(5)
+    end
+
+    it "should have 3 F&F6 reviews" do
+      expect(all(".panel-heading")[0].text).to eq("Fast & Furious 6")
+      expect(all(".panel-heading")[1].text).to eq("Fast & Furious 6")
+      expect(all(".panel-heading")[2].text).to eq("Fast & Furious 6")
+    end
+
+    it "should have 2 Frozen reviews" do
+      expect(all(".panel-heading")[3].text).to eq("Frozen")
+      expect(all(".panel-heading")[4].text).to eq("Frozen")
+    end
+
+  end
+
+  describe "movie show reviews" do
 
     describe "no reviews yet" do
 
@@ -165,7 +193,7 @@ describe "movie reviews" do
 
   end
 
-  describe "create new review" do
+  describe "create new movie review" do
 
     before(:each) do
       visit movies_path
@@ -221,34 +249,6 @@ describe "movie reviews" do
         expect(Review.last.comment).to eq("decent movie")
       end
 
-    end
-
-  end
-
-  describe "show all movie reviews" do
-    before(:each) do
-      create :review1
-      create :review2
-      create :review3
-      create :review4
-      create :review5
-      visit reviews_path
-    end
-
-    it "should have 5 reviews" do
-      expect(page).to have_selector("h2", text: "All Movie Reviews")
-      expect(all(".panel-body").count).to eq(5)
-    end
-
-    it "should have 3 F&F6 reviews" do
-      expect(all(".panel-heading")[0].text).to eq("Fast & Furious 6")
-      expect(all(".panel-heading")[1].text).to eq("Fast & Furious 6")
-      expect(all(".panel-heading")[2].text).to eq("Fast & Furious 6")
-    end
-
-    it "should have 2 Frozen reviews" do
-      expect(all(".panel-heading")[3].text).to eq("Frozen")
-      expect(all(".panel-heading")[4].text).to eq("Frozen")
     end
 
   end
