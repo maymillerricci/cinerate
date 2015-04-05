@@ -253,4 +253,15 @@ describe "movie reviews" do
 
   end
 
+  describe "navigation" do
+
+    it "should navigate home" do
+      visit movies_path
+      click_link "Read All Movie Reviews"
+      click_link "Cinerate"
+      expect(current_path).to eq(root_path)
+    end
+
+  end
+
 end
